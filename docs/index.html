@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>User Validation Web App</title>
+  <style>
+    body{font-family:system-ui,sans-serif;max-width:720px;margin:2rem auto;padding:0 1rem;line-height:1.6}
+    pre{background:#f3f4f6;padding:1rem;border-radius:8px;overflow-x:auto}
+    form{background:#f9fafb;border:1px solid #ddd;padding:1rem;border-radius:8px;max-width:320px}
+    input,button{width:100%;padding:.5rem;margin:.3rem 0 .8rem;box-sizing:border-box}
+    #msg{font-weight:bold}
+  </style>
+</head>
+<body>
+  <h1>User Validation Web Application</h1>
+  <p>Web Programming Lab Assignment. The user submits a login name and password to the server,
+  which checks them against records in a database. A success page is shown on a match,
+  otherwise a failure message.</p>
+  <h2>Tech stack</h2>
+  <p>Python Flask (server) &middot; SQLite (database) &middot; HTML/CSS (front end)</p>
+  <h2>How it works</h2>
+  <pre>Browser --POST /login--> Flask --SELECT ... WHERE username=?--> SQLite
+Browser <-- success page / failure message -- Flask</pre>
+  <h2>Demo (simulated in the browser)</h2>
+  <p><small>GitHub Pages hosts only static files, so this demo uses a hard-coded list in JavaScript.
+  The real server-side version is in the repository. Try admin / admin123.</small></p>
+  <form id="f">
+    <label>Login name</label><input id="u" required>
+    <label>Password</label><input id="p" type="password" required>
+    <button>Login</button>
+    <div id="msg"></div>
+  </form>
+  <p><a href="https://github.com/muskandeshwal2907/lab11">View source on GitHub</a></p>
+  <script>
+    const users = {admin:"admin123", student:"pass@123"};
+    document.getElementById("f").addEventListener("submit", e => {
+      e.preventDefault();
+      const u = document.getElementById("u").value, p = document.getElementById("p").value;
+      const m = document.getElementById("msg");
+      if (users[u] === p) { m.textContent = "✅ Login Successful. Welcome, " + u + "!"; m.style.color = "green"; }
+      else { m.textContent = "❌ Invalid login name or password."; m.style.color = "crimson"; }
+    });
+  </script>
+</body>
+</html>
