@@ -5,41 +5,93 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>User Validation Web App</title>
   <style>
-    body{font-family:system-ui,sans-serif;max-width:720px;margin:2rem auto;padding:0 1rem;line-height:1.6}
-    pre{background:#f3f4f6;padding:1rem;border-radius:8px;overflow-x:auto}
-    form{background:#f9fafb;border:1px solid #ddd;padding:1rem;border-radius:8px;max-width:320px}
-    input,button{width:100%;padding:.5rem;margin:.3rem 0 .8rem;box-sizing:border-box}
-    #msg{font-weight:bold}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,sans-serif;color:#1f2937;background:#f5f6fb;line-height:1.6}
+    header{background:linear-gradient(135deg,#4f46e5,#7c3aed 55%,#2563eb);color:#fff;text-align:center;padding:3rem 1rem 4.5rem}
+    header h1{margin:0 0 .5rem;font-size:2rem}
+    header p{margin:0 auto;max-width:620px;opacity:.92}
+    .tag{display:inline-block;margin:1rem .2rem 0;padding:.25rem .8rem;border-radius:99px;background:rgba(255,255,255,.18);font-size:.85rem}
+    main{max-width:900px;margin:-2.5rem auto 2rem;padding:0 1rem;display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+    .card{background:#fff;border-radius:14px;padding:1.5rem;box-shadow:0 6px 20px rgba(0,0,0,.08)}
+    .card h2{margin:0 0 .8rem;font-size:1.15rem;color:#312e81}
+    .full{grid-column:1/-1}
+    pre{margin:0;background:#1e1b4b;color:#e0e7ff;padding:1rem;border-radius:10px;overflow-x:auto;font-size:.85rem}
+    .note{font-size:.82rem;color:#6b7280;margin:0 0 1rem}
+    label{display:block;font-size:.85rem;font-weight:600;margin-bottom:.3rem}
+    input{width:100%;padding:.65rem .8rem;margin-bottom:1rem;border:1.5px solid #d1d5db;border-radius:10px;font-size:1rem}
+    input:focus{outline:none;border-color:#4f46e5;box-shadow:0 0 0 4px rgba(79,70,229,.15)}
+    button{width:100%;padding:.75rem;border:0;border-radius:10px;font-size:1rem;font-weight:600;color:#fff;cursor:pointer;
+      background:linear-gradient(135deg,#4f46e5,#7c3aed)}
+    button:hover{opacity:.92}
+    #msg{margin-top:1rem;padding:.7rem .9rem;border-radius:10px;font-weight:600;display:none}
+    #msg.ok{display:block;background:#d1fae5;color:#065f46}
+    #msg.bad{display:block;background:#fee2e2;color:#b91c1c}
+    ul{margin:0;padding-left:1.2rem}
+    footer{text-align:center;padding:0 1rem 2.5rem}
+    footer a{display:inline-block;padding:.7rem 1.5rem;border-radius:10px;background:#312e81;color:#fff;text-decoration:none;font-weight:600}
+    @media(max-width:700px){main{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
-  <h1>User Validation Web Application</h1>
-  <p>Web Programming Lab Assignment. The user submits a login name and password to the server,
-  which checks them against records in a database. A success page is shown on a match,
-  otherwise a failure message.</p>
-  <h2>Tech stack</h2>
-  <p>Python Flask (server) &middot; SQLite (database) &middot; HTML/CSS (front end)</p>
-  <h2>How it works</h2>
-  <pre>Browser --POST /login--> Flask --SELECT ... WHERE username=?--> SQLite
+  <header>
+    <h1>User Validation Web Application</h1>
+    <p>Web Programming Lab Assignment. The user submits a login name and password to the server, which checks them against records in a database. A success page is shown on a match, otherwise a failure message.</p>
+    <span class="tag">Python Flask</span><span class="tag">SQLite</span><span class="tag">HTML / CSS</span>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Try the demo</h2>
+      <p class="note">GitHub Pages hosts only static files, so this demo is simulated in JavaScript. Try <b>admin / admin123</b>.</p>
+      <form id="f">
+        <label for="u">Login name</label>
+        <input id="u" placeholder="Enter your login name" required>
+        <label for="p">Password</label>
+        <input id="p" type="password" placeholder="Enter your password" required>
+        <button>Login</button>
+        <div id="msg"></div>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>How it works</h2>
+      <ul>
+        <li>The user submits the login form (POST)</li>
+        <li>Flask looks up the user in SQLite</li>
+        <li>The password hash is compared</li>
+        <li>Match: success page. No match: failure message</li>
+      </ul>
+      <p class="note" style="margin-top:1rem">Passwords are stored hashed and queries are parameterised to prevent SQL injection.</p>
+    </section>
+
+    <section class="card full">
+      <h2>Request flow</h2>
+      <pre>Browser --POST /login--> Flask --SELECT ... WHERE username=?--> SQLite
 Browser <-- success page / failure message -- Flask</pre>
-  <h2>Demo (simulated in the browser)</h2>
-  <p><small>GitHub Pages hosts only static files, so this demo uses a hard-coded list in JavaScript.
-  The real server-side version is in the repository. Try admin / admin123.</small></p>
-  <form id="f">
-    <label>Login name</label><input id="u" required>
-    <label>Password</label><input id="p" type="password" required>
-    <button>Login</button>
-    <div id="msg"></div>
-  </form>
-  <p><a href="https://github.com/muskandeshwal2907/lab11">View source on GitHub</a></p>
+    </section>
+
+    <section class="card full">
+      <h2>Run the real app locally</h2>
+      <pre>pip install -r requirements.txt
+python init_db.py
+python app.py
+# open http://127.0.0.1:5000</pre>
+    </section>
+  </main>
+
+  <footer><a href="https://github.com/muskandeshwal2907/lab11">View source on GitHub</a></footer>
+
   <script>
     const users = {admin:"admin123", student:"pass@123"};
     document.getElementById("f").addEventListener("submit", e => {
       e.preventDefault();
-      const u = document.getElementById("u").value, p = document.getElementById("p").value;
+      const u = document.getElementById("u").value.trim(), p = document.getElementById("p").value;
       const m = document.getElementById("msg");
-      if (users[u] === p) { m.textContent = "✅ Login Successful. Welcome, " + u + "!"; m.style.color = "green"; }
-      else { m.textContent = "❌ Invalid login name or password."; m.style.color = "crimson"; }
+      if (Object.prototype.hasOwnProperty.call(users, u) && users[u] === p) {
+        m.className = "ok"; m.textContent = "✅ Login Successful. Welcome, " + u + "!";
+      } else {
+        m.className = "bad"; m.textContent = "❌ Invalid login name or password.";
+      }
     });
   </script>
 </body>
